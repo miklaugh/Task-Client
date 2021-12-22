@@ -6,7 +6,6 @@ import TaskButtonPanel from './TaskButtonPanel';
 import TaskListSelect from './TaskListSelect';
 import Main from './Main';
 import statusEnums from './statusEnums';
-
 import {baseURL, addToDo,deleteId,updateId,useAutoFetch ,addAll, deleteByIds,sqlTest} from './apiRequests';
 import moment from 'moment';
 
@@ -20,8 +19,10 @@ function App() {
   const initTaskList =()=> [];
   const [taskList, setTaskList] = useState(initTaskList([]));
   
+  const initSelectIx=()=>({selectIx:null});
+  const [selectIx, setSelectIx] = useState(initSelectIx());
   // test obj for addToDo
-  const props={ setTaskList,taskList,setTaskForm,initTaskForm};
+  
   //const baseURL='http://localhost:5000/api';List
 
   const url = `${baseURL}/mytodos/list`;
@@ -89,6 +90,7 @@ function App() {
           break;
       case 'Sql-Test':
           sqlTest();
+          break;
       case 'Exit':
         // code block
         break;
@@ -109,9 +111,11 @@ function App() {
 
   // insert selected taskList element into taskForm 
   const handleTaskListSelect = (ix)=>{
+
     console.log('Selected task:',taskList[ix]);
     // clone taskList element
-    let tForm = {...taskList[ix]};
+        let tForm = {...taskList[ix]};
+
     // convert from UK date format to iso format - required by 'calendar' component
     // and SQL
     // (note, the 'calendar' auto coverts to UK via browser's localiztion, but
@@ -120,16 +124,18 @@ function App() {
     tForm.now = moment(dd,'DD-MM-YYYY').format('YYYY-MM-DD');
     tForm.selectIx = ix;
     setTaskForm({...tForm});
+    setSelectIx({selectIx:ix});
+    console.log('Select State:',selectIx);
   };
 
   return (
     <>
       <Main 
-        taskButtonPanel = {<TaskButtonPanel handleTaskButton={handleTaskButton}/>}
+        taskButtonPanel = {<TaskButtonPanel form={taskForm} handleTaskButton={handleTaskButton}/>}
 
         tskForm = {<TaskForm form={taskForm} handleTaskForm={handleTaskForm}/>}
 
-        taskListSelect = { <TaskListSelect tasks = {taskList} handleTaskListSelect={handleTaskListSelect}/>}
+        taskListSelect = { <TaskListSelect tasks = {taskList} selectIx={selectIx} handleTaskListSelect={handleTaskListSelect}/>}
 
         />
       

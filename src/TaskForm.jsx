@@ -39,7 +39,7 @@ function TaskForm({form, handleTaskForm}){
       <form noValidate autoComplete="off" onSubmit={e=>e.preventDefault()}> 
         <label 
           style={{backgroundColor:'#B2D8D8',
-                  padding:'0.5rem',color:'grey',
+                  padding:'0.5rem',color:'white',
                 fontWeight:'normal'}}
         > Task Tracker App</label>     
         <br/><br/><br/>

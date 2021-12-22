@@ -13,10 +13,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function TaskListSelect({tasks,handleTaskListSelect}){
+function TaskListSelect({tasks,selectIx, handleTaskListSelect}){
 
     const classes = useStyles();
    // className={classes.root}
+   console.log('@ TakListSelect...SelectIx:', selectIx);
     return (
       <div >
         <List dense={true} component="ul" 
@@ -24,11 +25,14 @@ function TaskListSelect({tasks,handleTaskListSelect}){
           borderStyle:'solid',borderWidth:'thin'}}
         >
           {tasks.map((item, index) =>
+            
             <ListItem button component={'li'} key={index}
+            
             onClick={()=>handleTaskListSelect(index)}
             >
-            <ListItemText primary={`${item.task} ${item.now}`}/>
-        </ListItem>)}
+            <ListItemText style = {{color: (index===selectIx.selectIx) ? 'green':'inherit'}} primary={`${item.task} ${item.now}`}/>
+           
+          </ListItem>)}
         </List>
       </div>
   )
